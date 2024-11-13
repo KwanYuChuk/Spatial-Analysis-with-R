@@ -1,0 +1,28 @@
+library(sf)
+library(ggplot2)
+library(ggspatial)
+library(rosm)
+library(grid)
+
+shapefile <- st_read("Swan_Canning_Rvr_Dev_Control_Area_DPLH_028.shp")
+
+plot(shapefile)
+
+ggplot(data = shapefile) +
+  annotation_map_tile(type = "osm", zoomin = -1) +
+  geom_sf(fill = "blue", color = "blue") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    legend.position = c(0.9, 0.1)) +
+  labs(title = "Swan and Canning River in Greater Perth")+
+  annotation_north_arrow(location = "br", which_north = "true", 
+                         style = north_arrow_fancy_orienteering(),
+                         pad_y = unit(0.5, "cm")) +
+  annotation_scale(location = "br", width_hint = 0.3) + 
+  theme(legend.position = c(0.9, 0.1)) +
+  annotation_custom(
+    grob = textGrob("Data sourced from data.wa.\nMap produced by Kwan Yu Chuk.",
+                    x = 0, y = 0, hjust = 0, vjust = 0, gp = gpar(fontsize = 10)),
+    xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf
+  )
